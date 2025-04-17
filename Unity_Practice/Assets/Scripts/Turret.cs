@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
-    [SerializeField] float rotateSpeed;
+    [SerializeField] float rotateSpeed = 10f;
+
     void Update()
     {
         Rotation();
     }
     private void Rotation()
     {
-        float dirH = Input.GetAxis("Horizontal");
-        transform.Rotate(Vector3.up * dirH * rotateSpeed * Time.deltaTime);
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            transform.Rotate(-Vector3.up  * rotateSpeed * Time.deltaTime);
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            transform.Rotate(Vector3.up * rotateSpeed * Time.deltaTime);
+        }
     }
 }
