@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpawnEnemy : MonoBehaviour
 {
     EnemyPool enemyPool;
+    [SerializeField] Transform spawnPosition;
     [SerializeField] float spawnTime=5;
     float timer;
 
@@ -16,25 +17,28 @@ public class SpawnEnemy : MonoBehaviour
 
     void Update()
     {
+        
         timer -= Time.deltaTime;
-        if (timer < 0 )
+        if (timer < 0)
         {
-            enemyPool.CreateEnemy(RandomPosition(), RandomRotation());
+            enemyPool.CreateEnemy(TransformPosition(), TransformRotation());
             timer = spawnTime;
         }
+        
     }
 
-    private Vector3 RandomPosition()
+    private Vector3 TransformPosition()
     {
-        float xPos = Random.Range(-10, 10);
-        float zPos = Random.Range(-10, 10);
+        float xPos = Random.Range(-5, 5);
+        float zPos = Random.Range(-5, 5);
 
-        Vector3 pos = new Vector3(xPos, 1, zPos);
+        spawnPosition.transform.position = new Vector3(spawnPosition.transform.position.x +xPos, 
+            1, spawnPosition.transform.position.z + zPos);
 
-        return pos;
+        return spawnPosition.transform.position;
     }
 
-    private Quaternion RandomRotation()
+    private Quaternion TransformRotation()
     {
         float yRot = Random.Range(0, 360);
 

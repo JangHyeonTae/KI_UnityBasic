@@ -14,7 +14,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float moveSpeed = 10;
     [SerializeField] float rotateSpeed = 45;
 
+    private Coroutine shootRoutine;
+    private Coroutine chargeRoutine;
 
+    [SerializeField] private int shootMode = 0;
     private void Awake()
     {
 
@@ -23,10 +26,40 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            shoot.Fire();
+            shootMode = 1;
+            Debug.Log("ShootMode");
         }
+        else if(Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            shootMode = 2;
+            Debug.Log("ChargeMode");
+        }
+
+        if (shootMode == 1)
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && shootRoutine == null)
+            {
+                shootRoutine = StartCoroutine(FireRoutine());
+            }
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                if (shootRoutine != null)
+                {
+                    StopCoroutine(shootRoutine);
+                    shootRoutine = null;
+                }
+            }
+        }
+        else if (shootMode == 2)
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && chargeRoutine == null)
+            {
+                chargeRoutine = StartCoroutine(FireCharge());
+            }
+        }
+        
         Move();
         Rotation();
     }
@@ -42,5 +75,37 @@ public class PlayerController : MonoBehaviour
         float input = Input.GetAxis("Horizontal");
         transform.Rotate(Vector3.up, rotateSpeed * input * Time.deltaTime);
     }
+
+    IEnumerator FireCharge()
+    {
+        float timer = 0;
+
+        while (true)
+        {
+            timer += Time.deltaTime * 10f;
+            yield return null;
+
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                break;
+            }
+        }
+        float power = Mathf.Clamp(timer, 10f, 30f);
+        shoot.Fire(power);
+
+        chargeRoutine = null;
+    }
+
+    IEnumerator FireRoutine()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1f);
+        while (true)
+        {
+            shoot.Fire();
+            yield return delay;
+            
+        }
+    }
+
 
 }

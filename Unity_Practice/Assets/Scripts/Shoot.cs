@@ -21,4 +21,11 @@ public class Shoot : MonoBehaviour
         bulletRigidbody.velocity = muzzlePoint.forward * bulletSpeed;
     }
 
+    public void Fire(float chargeSpeed)
+    {
+        PooledObject instance = objectPool.CreateBullet(muzzlePoint.position, muzzlePoint.rotation);
+        Rigidbody bulletRigidbody = instance.GetComponent<Rigidbody>();
+        bulletRigidbody.velocity = muzzlePoint.forward * chargeSpeed;
+    }
+
 }

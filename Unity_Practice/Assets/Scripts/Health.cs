@@ -26,7 +26,8 @@ public class Health : MonoBehaviour
         curHp -= damage;
         if (curHp <= 0)
         {
-            enemyPool.ReturnEnemy(enemy);
+            //enemyPool.ReturnEnemy(enemy);
+            Destroy(gameObject);
         }
     }
 }

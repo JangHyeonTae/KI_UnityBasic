@@ -36,6 +36,7 @@ public class ObjectPool : MonoBehaviour
         PooledObject instance = poolList[poolList.Count - 1];
         poolList.RemoveAt(poolList.Count - 1);
 
+        //instance.objectPool = this;
         instance.transform.position = position;
         instance.transform.rotation = rotation;
 

@@ -5,26 +5,18 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] float speed;
-    [SerializeField] float targetSpeed;
     [SerializeField] Transform rayPosition;
 
     [SerializeField] float range;
-
     public GameObject target;
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        RayCollider();
-        Debug.DrawLine(rayPosition.position, rayPosition.position + rayPosition.forward * range, Color.green);
-        if (target != null)
+        //RayCollider();
+
+        if(target != null)
         {
             Trace();
-            Attack();
         }
     }
 
@@ -32,50 +24,48 @@ public class Enemy : MonoBehaviour
     {
         transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
         transform.LookAt(target.transform.position);
-
     }
 
-    private void RayCollider()
+    public void SetTarget(GameObject _target)
     {
-        if (Physics.Raycast(transform.position, rayPosition.forward, out RaycastHit hit, range))
+        if (_target != null)
         {
-            PlayerController player = hit.collider.gameObject.GetComponent<PlayerController>();
-            if (player != null)
-            {
-                Debug.DrawLine(rayPosition.position, hit.point, Color.red);
-                target = hit.collider.gameObject;
-            }
-            else
-            {
-                target = null;
-            }
-
-
+            _target = GameObject.FindGameObjectWithTag("Player");
+            target = _target;
         }
-        else
-        {
-            Debug.DrawLine(rayPosition.position, rayPosition.position + rayPosition.forward * 10f, Color.red);
-            target = null;
-        }
+        
     }
 
-    public void Attack()
+
+    //private void RayCollider()
+    //{
+    //    if (Physics.Raycast(transform.position, rayPosition.forward, out RaycastHit hit, range))
+    //    {
+    //        //PlayerController player = hit.collider.gameObject.GetComponent<PlayerController>();
+    //        //if (player != null)
+    //        if(hit.collider.CompareTag("Player"))
+    //        {
+    //            Debug.DrawLine(rayPosition.position, hit.point, Color.red);
+    //            target = hit.collider.gameObject;
+    //        }
+    //        else
+    //        {
+    //            target = null;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Debug.DrawLine(rayPosition.position, rayPosition.position + rayPosition.forward * 10f, Color.green);
+    //        target = null;
+    //    }
+    //}
+
+    private void OnCollisionEnter(Collision collision)
     {
-        if (Physics.Raycast(transform.position, rayPosition.forward, out RaycastHit hitInfo, 1))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerController player = hitInfo.collider.gameObject.GetComponent<PlayerController>();
-            if (player != null)
-            {
-                Destroy(target.gameObject);
-            }
-            else
-            {
-                target = null;
-            }
-        }
-        else
-        {
-            target = null;
+            Destroy(collision.gameObject);
         }
     }
+
 }

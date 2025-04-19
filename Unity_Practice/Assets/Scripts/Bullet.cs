@@ -41,4 +41,5 @@ public class Bullet : MonoBehaviour
             Instantiate(particle, transform.position, Quaternion.identity);
         }
     }
+
 }
