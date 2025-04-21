@@ -17,28 +17,29 @@ public class PlayerController : MonoBehaviour
     private Coroutine shootRoutine;
     private Coroutine chargeRoutine;
 
-    [SerializeField] private int shootMode = 0;
+    //[SerializeField] private int shootMode = 0;
+
     private void Awake()
     {
-
+        
     }
 
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            shootMode = 1;
-            Debug.Log("ShootMode");
-        }
-        else if(Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            shootMode = 2;
-            Debug.Log("ChargeMode");
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    shootMode = 1;
+        //    Debug.Log("ShootMode");
+        //}
+        //else if(Input.GetKeyDown(KeyCode.Alpha2))
+        //{
+        //    shootMode = 2;
+        //    Debug.Log("ChargeMode");
+        //}
 
-        if (shootMode == 1)
-        {
+        //if (shootMode == 1)
+        //{
             if (Input.GetKeyDown(KeyCode.Space) && shootRoutine == null)
             {
                 shootRoutine = StartCoroutine(FireRoutine());
@@ -51,14 +52,14 @@ public class PlayerController : MonoBehaviour
                     shootRoutine = null;
                 }
             }
-        }
-        else if (shootMode == 2)
-        {
-            if (Input.GetKeyDown(KeyCode.Space) && chargeRoutine == null)
-            {
-                chargeRoutine = StartCoroutine(FireCharge());
-            }
-        }
+        //}
+        //else if (shootMode == 2)
+        //{
+        //    if (Input.GetKeyDown(KeyCode.Space) && chargeRoutine == null)
+        //    {
+        //        chargeRoutine = StartCoroutine(FireCharge());
+        //    }
+        //}
         
         Move();
         Rotation();

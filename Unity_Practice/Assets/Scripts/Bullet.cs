@@ -28,18 +28,21 @@ public class Bullet : MonoBehaviour
         }
         else
         {
-            Health health = collision.gameObject.GetComponent<Health>();
-            
-            if (health != null)
+            IDamagable damagable = collision.gameObject.GetComponent<IDamagable>();
+            if (damagable != null)
             {
-                Debug.Log("Ãæµ¹");
-                health.TakeDamage(3);
+                Attack(damagable);
             }
             
             
             Destroy(this.gameObject);
             Instantiate(particle, transform.position, Quaternion.identity);
         }
+    }
+
+    public void Attack(IDamagable damagable)
+    {
+        damagable.TakeDamage(gameObject, 1);
     }
 
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Health : MonoBehaviour
+public class Health : MonoBehaviour,IDamagable
 {
     [SerializeField] private int maxHp = 10;
     EnemyPool enemyPool;
@@ -21,13 +21,19 @@ public class Health : MonoBehaviour
         curHp = maxHp;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(GameObject prefab, int damage)
     {
         curHp -= damage;
         if (curHp <= 0)
         {
-            //enemyPool.ReturnEnemy(enemy);
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    public void Die()
+    {
+        //enemyPool.ReturnEnemy(enemy);
+        GameManager.Instance.score += 1;
+        Destroy(gameObject);
     }
 }
