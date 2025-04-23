@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -18,7 +19,11 @@ public class GameManager : MonoBehaviour
             return instance; 
         }
     }
-    public int score = 0;
+
+    public event Action<int> OnScore;
+
+    private int score = 0;
+    public int Score { get {  return score; } set { score = value; OnScore?.Invoke(score); } }
     public int maxScore = 5;
     private void Awake()
     {

@@ -6,10 +6,19 @@ using UnityEngine.UI;
 public class ScoreText : MonoBehaviour
 {
     public Text scoreText;
-    
-    // Update is called once per frame
-    void Update()
+
+    private void OnEnable()
     {
-        scoreText.text = GameManager.Instance.score.ToString();
+        TextUpdate(GameManager.Instance.Score);
+        GameManager.Instance.OnScore += TextUpdate;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.OnScore -= TextUpdate;
+    }
+    void TextUpdate(int score)
+    {
+        scoreText.text = score.ToString();
     }
 }

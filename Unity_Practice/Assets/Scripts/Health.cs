@@ -33,7 +33,8 @@ public class Health : MonoBehaviour,IDamagable
     public void Die()
     {
         //enemyPool.ReturnEnemy(enemy);
-        GameManager.Instance.score += 1;
+        if (GameManager.Instance == null) return;
+        GameManager.Instance.Score += 1;
         Destroy(gameObject);
     }
 }
